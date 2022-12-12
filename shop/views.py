@@ -16,6 +16,5 @@ class PurchaseCreate(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        product_id = int(''.join(filter(str.isdigit, str(self.object.product))))
-        products = Product.objects.filter(pk=product_id).update(quantity=F('quantity') - 1)
+        products = Product.objects.filter(name=self.object.product.name).update(quantity=F('quantity') - 1)
         return HttpResponse(f'Спасибо за покупку, {self.object.person}!')
